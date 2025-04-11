@@ -1,0 +1,593 @@
+---
+title: "Complete Individual Maps"
+format: pdf
+editor: visual
+execute: 
+  echo: false
+---
+
+Library Packages
+
+```{r}
+library(tidycensus)
+library(tidyverse)
+library(ggplot2)
+library(gganimate)
+library(gifski)
+```
+
+Aggregated Data
+
+```{r}
+prefixAg <- read_csv("prefixAg.csv", col_types = cols(ddodyear = col_character(),PUMA = col_character()))
+mutateAg <- read_csv("mutateAg.csv", col_types = cols(ddodyear = col_character(), PUMA = col_character(), newPUMA = col_character()))
+```
+
+API Code
+
+```{r}
+apiKey="d892b83d5d69d3c30133cbe104ba890201cecb27"
+census_api_key(apiKey, install = TRUE, overwrite=TRUE)
+```
+
+Population Data
+
+```{r}
+popData2013 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2013,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2014 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2014,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2015 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2015,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2016 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2016,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2017 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2017,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2018 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2018,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2019 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2019,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2020 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2020,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2021 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2021,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+
+popData2022 <- get_acs(
+    geography = "public use microdata area",
+    variables = c(total_population = "B01003_001"),
+    state = "OR",
+    year = 2022,
+    survey = "acs5",
+    geometry = TRUE, output = "wide") 
+```
+
+Rates
+
+```{r}
+
+Ag13 <- mutateAg|>
+  filter(ddodyear == 2013)
+
+CancerRates2013 <- popData2013 |>
+  right_join(Ag13, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+
+Ag14 <- mutateAg|>
+  filter(ddodyear == 2014)
+
+CancerRates2014 <- popData2014 |>
+  right_join(Ag14, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+
+Ag15 <- mutateAg|>
+  filter(ddodyear == 2015)
+
+CancerRates2015 <- popData2015 |>
+  right_join(Ag15, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag16 <- mutateAg|>
+  filter(ddodyear == 2016)
+
+CancerRates2016 <- popData2016 |>
+  right_join(Ag16, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag17 <- mutateAg|>
+  filter(ddodyear == 2017)
+
+CancerRates2017 <- popData2017 |>
+  right_join(Ag17, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag18 <- mutateAg|>
+  filter(ddodyear == 2018)
+
+CancerRates2018 <- popData2018 |>
+  right_join(Ag18, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag18 <- mutateAg|>
+  filter(ddodyear == 2018)
+
+CancerRates2018 <- popData2018 |>
+  right_join(Ag18, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag19 <- mutateAg|>
+  filter(ddodyear == 2019)
+
+CancerRates2019 <- popData2019 |>
+  right_join(Ag19, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag20 <- mutateAg|>
+  filter(ddodyear == 2020)
+
+CancerRates2020 <- popData2020 |>
+  right_join(Ag20, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag21 <- mutateAg|>
+  filter(ddodyear == 2021)
+
+CancerRates2021 <- popData2021 |>
+  right_join(Ag21, by = c("GEOID" = "newPUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+Ag22 <- prefixAg|>
+  filter(ddodyear == 2022)
+
+CancerRates2022 <- popData2022 |>
+  right_join(Ag22, by = c("GEOID" = "PUMA")) |>
+  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+
+```
+
+Maps!
+
+2013
+
+```{r}
+CancerRatesLung2013 <- CancerRates2013 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2013 <- CancerRates2013 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2013 <- CancerRates2013 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2013) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2013")
+
+ggplot(CancerRatesBreast2013) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2013")
+
+ggplot(CancerRatesPancreas2013) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2013")
+```
+
+2014
+
+```{r}
+CancerRatesLung2014 <- CancerRates2014 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2014 <- CancerRates2014 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2014 <- CancerRates2014 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2014) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2014")
+
+ggplot(CancerRatesBreast2014) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2014")
+
+ggplot(CancerRatesPancreas2014) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2014")
+```
+
+2015
+
+```{r}
+CancerRatesLung2015 <- CancerRates2015 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2015 <- CancerRates2015 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2015 <- CancerRates2015 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2015) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2015")
+
+ggplot(CancerRatesBreast2015) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2015")
+
+ggplot(CancerRatesPancreas2015) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2015")
+```
+
+2016
+
+```{r}
+CancerRatesLung2016 <- CancerRates2016 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2016 <- CancerRates2016 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2016 <- CancerRates2016 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2016) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2016")
+
+ggplot(CancerRatesBreast2016) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2016")
+
+ggplot(CancerRatesPancreas2016) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2016")
+```
+
+2017
+
+```{r}
+CancerRatesLung2017 <- CancerRates2017 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2017 <- CancerRates2017 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2017 <- CancerRates2017 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2017) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2017")
+
+ggplot(CancerRatesBreast2017) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2017")
+
+ggplot(CancerRatesPancreas2017) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2017")
+```
+
+2018
+
+```{r}
+CancerRatesLung2018 <- CancerRates2018 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2018 <- CancerRates2018 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2018 <- CancerRates2018 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2018) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2018")
+
+ggplot(CancerRatesBreast2018) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2018")
+
+ggplot(CancerRatesPancreas2018) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2018")
+```
+
+2019
+
+```{r}
+CancerRatesLung2019 <- CancerRates2019 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2019 <- CancerRates2019 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2019 <- CancerRates2019 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2019) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2019")
+
+ggplot(CancerRatesBreast2019) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2019")
+
+ggplot(CancerRatesPancreas2019) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2019")
+```
+
+2020
+
+```{r}
+CancerRatesLung2020 <- CancerRates2020 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2020 <- CancerRates2020 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2020 <- CancerRates2020 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2020) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2020")
+
+ggplot(CancerRatesBreast2020) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2020")
+
+ggplot(CancerRatesPancreas2020) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2020")
+```
+
+2021
+
+```{r}
+CancerRatesLung2021 <- CancerRates2021 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2021 <- CancerRates2021 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2021 <- CancerRates2021 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2021) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2021")
+
+ggplot(CancerRatesBreast2021) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2021")
+
+ggplot(CancerRatesPancreas2021) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2021")
+```
+
+2022
+
+```{r}
+
+CancerRatesLung2022 <- CancerRates2022 %>% filter(diseaseSite == "Lung")
+CancerRatesBreast2022 <- CancerRates2022 %>% filter(diseaseSite == "Breast")
+CancerRatesPancreas2022 <- CancerRates2022 %>% filter(diseaseSite == "Pancreas")
+
+
+ggplot(CancerRatesLung2022) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated lung cancer deaths per 100k residents, 2022")
+
+ggplot(CancerRatesBreast2022) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated breast cancer deaths per 100k residents, 2022")
+
+ggplot(CancerRatesPancreas2022) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title="Estimated pancreas cancer deaths per 100k residents, 2022")
+```
