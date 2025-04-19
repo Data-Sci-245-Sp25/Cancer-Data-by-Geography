@@ -14,6 +14,7 @@ library(tidyverse)
 library(ggplot2)
 library(gganimate)
 library(gifski)
+library(sf)
 ```
 
 Aggregated Data
@@ -590,4 +591,77 @@ ggplot(CancerRatesPancreas2022) +
     ) +
     theme_void() + #removes axes 
     labs(title="Estimated pancreas cancer deaths per 100k residents, 2022")
+```
+
+Combined Years Rates
+
+```{r}
+CancerRates <- bind_rows(CancerRates2013, CancerRates2014, CancerRates2015, CancerRates2016, CancerRates2017, CancerRates2018, CancerRates2019, CancerRates2020, CancerRates2021, CancerRates2022)
+
+CancerRatesLung <- CancerRates %>% filter(diseaseSite == "Lung")
+
+CancerRatesPancreas <- CancerRates %>% filter(diseaseSite == "Pancreas")
+
+CancerRatesBreast <- CancerRates %>% filter(diseaseSite == "Breast")
+```
+
+Animated Map
+
+```{r}
+ggplot(CancerRatesLung) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Lung Cancer Deaths/100k residents",
+      limits = c(0, 50)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title= "Lung Cancer Deaths/100k residents, 2013 - 2022") + transition_manual(ddodyear) 
+
+```
+
+```{r}
+ggplot(CancerRatesPancreas) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Pancreas Cancer Deaths/100k residents",
+      limits = c(0, 20)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title= "Estimated pancreas cancer deaths per 100k residents, 2013 - 2022") + transition_manual(ddodyear) 
+```
+
+```{r}
+ggplot(CancerRatesBreast) +
+    geom_sf(mapping=aes(fill = rate_per_100k)) +
+    scale_fill_viridis_c(
+      name = "Breast Cancer Deaths/100k residents",
+      limits = c(0, 25)  # Adjust these limits based on your data
+
+    ) +
+    theme_void() + #removes axes 
+    labs(title= "Estimated breast cancer deaths per 100k residents, 2013 - 2022") + transition_manual(ddodyear) 
+```
+
+```{r}
+
+```
+
+```{r}
+ggplot(data = CancerRatesLung, mapping = aes(x = ddodyear, y = rate_per_100k, col = pumaCode)) + geom_point() 
+
+ggplot(data = CancerRatesLung, mapping = aes(x = ddodyear, y = rate_per_100k, col = pumaCode)) + geom_point() + facet_wrap(~pumaCode)
+```
+
+```{r}
+ggplot(data = CancerRatesBreast, mapping = aes(x = ddodyear, y = rate_per_100k, col = pumaCode)) + geom_point() 
+
+ggplot(data = CancerRatesBreast, mapping = aes(x = ddodyear, y = rate_per_100k, col = pumaCode)) + geom_point() + facet_wrap(~pumaCode)
+```
+
+```{r}
+ggplot(data = CancerRatesPancreas, mapping = aes(x = ddodyear, y = rate_per_100k, col = pumaCode)) + geom_point() 
+
+ggplot(data = CancerRatesPancreas, mapping = aes(x = ddodyear, y = rate_per_100k)) + geom_point() + facet_wrap(~pumaCode) 
 ```
