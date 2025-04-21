@@ -665,3 +665,19 @@ ggplot(data = CancerRatesPancreas, mapping = aes(x = ddodyear, y = rate_per_100k
 
 ggplot(data = CancerRatesPancreas, mapping = aes(x = ddodyear, y = rate_per_100k)) + geom_point() + facet_wrap(~pumaCode) 
 ```
+
+Statistical Tests
+
+```{r}
+oneWayAnovaLung <- aov(CancerRatesLung$rate_per_100k ~ CancerRatesLung$pumaCode)
+TukeyHSD(oneWayAnovaLung, conf.level = .95)
+#sig diff btw 102 & 101,105,114 as well as 114 & 103,116
+
+oneWayAnovaBreast <- aov(CancerRatesBreast$rate_per_100k ~ CancerRatesBreast$pumaCode)
+summary(oneWayAnovaBreast)
+#no sig diff btwn means
+
+oneWayAnovaPancreas <- aov(CancerRatesPancreas$rate_per_100k ~ CancerRatesPancreas$pumaCode)
+TukeyHSD(oneWayAnovaPancreas, conf.level = .95)
+#anova says sig but pairwise say no sig
+```
