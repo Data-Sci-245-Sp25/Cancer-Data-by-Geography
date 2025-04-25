@@ -1,1 +1,3 @@
+# Research Goal
+
 Our research question investigates how the mortality rates of the three most prevalent cancer types vary by geographic area over the past ten years. We used the Census Bureau’s determination of Public Use Microdata Areas to define our distinct geographic areas in Multnomah County. This analysis could be used to inform local public health interventions such as a program providing early detection screenings in an area with a high cancer mortality rate. Findings may also indicate that underlying environmental risk factors like pollution or chemical exposure are more common in specific areas. Addressing inequities in healthcare quality and access based on geographic location is another potential application of this research.

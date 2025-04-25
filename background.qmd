@@ -1,8 +1,10 @@
+# **Background Information**
+
 This analysis focuses on the mortality rates of lung cancer, breast cancer, and pancreatic cancer as these caused the most deaths in Multnomah county over the past decade. Lung cancer is currently the leading cause of cancer death in the United States. According to statistics from the National Cancer Institute’s SEER program, it contributed to 20.1% of all national cancer deaths with a rate of 31.5 deaths per a population of 100,000 men and women. Breast cancer primarily affects women, though it does rarely occur in men. The mortality rate for women is 19.2 per 100,000 women. Pancreatic cancer has a death rate of 11.3 per 100,000.
 
 A combination of biology, social determinants, and physical environment influence the likelihood of cancer outcomes. Risk factors for developing any of these diseases include smoking tobacco products, drinking alcohol, exposure to toxic chemicals, obesity, and genetic predisposition indicated by family history. The chances of developing cancer also increase with age. Looking at cancer rates in the context of geographic location is important as it can reveal the source of carcinogenic environmental pollutants. For example, The Oregon Health Authority’s intervention in a Portland glass manufacturer’s use of cadmium and arsenic reduced the future health risks of nearby residents.
 
-### **Citations** 
+### **Citations**
 
 Colditz, G. A., & Wei, E. K. (2012). Preventability of Cancer: The Relative Contributions of Biologic and Social and Physical Environmental Determinants of Cancer Mortality. Annual Review of Public Health, 33(1), 137–156. <https://doi.org/10.1146/annurev-publhealth-031811-124627> 
 

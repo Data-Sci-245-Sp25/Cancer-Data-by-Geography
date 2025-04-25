@@ -1,6 +1,5 @@
 ---
 title: "Methods"
-author: "Isabella Moore"
 format: html
 editor: visual
 ---
@@ -59,59 +58,49 @@ The following code chunk includes the code used to create our aggregated data se
 #| warning: false
 
 #Step 1: load raw data
-rawData <- read_csv() #empty as original .csv file is not publically available
+#rawData <- read_csv() #empty as original .csv file is not publically available
 
 
 #Step 2: concactenate fips
 #create padtract with 4 digits
-withfips <- rawData|>
-  mutate(padtract= str_pad(ddrestract, width = 4, pad = "0"))
+#withfips <- rawData|> mutate(padtract= str_pad(ddrestract, width = 4, pad = "0"))
 
 # create padtractsuf with 2 digits
-withfips <- withfips|>
-  mutate(padtractsuf = str_pad(ddrestractsuf, width = 2, pad = "0"))
+#withfips <- withfips|> mutate(padtractsuf = str_pad(ddrestractsuf, width = 2, pad = "0"))
 
 #concactenate into fipscode
-withfips <- withfips|>
-  mutate(fipscode = paste("41051", padtract, padtractsuf, sep = ""))
+#withfips <- withfips|> mutate(fipscode = paste("41051", padtract, padtractsuf, sep = ""))
 
 #remove padded columns
-withfips <- withfips|>
-  select(-padtract, -padtractsuf)
+#withfips <- withfips|> select(-padtract, -padtractsuf)
 
 
 #Step 3: identify and filter data to only include the top 3 types of cancer death
 #filter to only c and d icd10 codes
-icdCodes<-read_csv("../multCoData/icd10-codes.csv")
+#icdCodes<-read_csv("../multCoData/icd10-codes.csv")
 
-cancerOnlyData <- withfips |>
-  filter(startsWith(dmcaACME, "C") | startsWith(dmcaACME, "D"))
+#cancerOnlyData <- withfips |> filter(startsWith(dmcaACME, "C") | startsWith(dmcaACME, "D"))
 
-cancerOnlyData <-cancerOnlyData |>
-  mutate(diseaseSite=icdCodes$Category[match(dmcaACME, icdCodes$`ICD-10 Code`)])
+#cancerOnlyData <-cancerOnlyData |> mutate(diseaseSite=icdCodes$Category[match(dmcaACME, icdCodes$`ICD-10 Code`)])
 
-cancer10y <- cancerOnlyData|>
-  filter(ddodyear >= 2013)
+#cancer10y <- cancerOnlyData|> filter(ddodyear >= 2013)
 
 #Step 4: Convert to PUMA codes
-puma <- read_csv("~/multCoData/2020_Census_Tract_to_2020_PUMA.csv")
+#puma <- read_csv("~/multCoData/2020_Census_Tract_to_2020_PUMA.csv")
 
-puma <- puma|>
-  filter(STATEFP == 41)
+#puma <- puma|> filter(STATEFP == 41)
 
-puma <- puma|>
-  mutate(across(everything(), as.double))
+#puma <- puma|> mutate(across(everything(), as.double))
 
-tidydata <- cancerOnlyData |>
-  left_join(puma, by = c("drescountyfips" = "COUNTYFP", "ddrestract" = "TRACTCE"))
+#tidydata <- cancerOnlyData |> left_join(puma, by = c("drescountyfips" = "COUNTYFP", "ddrestract" = "TRACTCE"))
 
 #Step 5: Create an aggregated dataset where independent observations are number of cancer deaths.
-aggregatedData <-cancerOnlyData %>% group_by(ddodyear,diseaseSite,pumaCode) %>% summarise(totals=n())
+#aggregatedData <-cancerOnlyData %>% group_by(ddodyear,diseaseSite,pumaCode) %>% summarise(totals=n())
 
-prefixAg <- aggregatedData %>% mutate(PUMA = paste("41", pumaCode, sep = ""))
+#prefixAg <- aggregatedData %>% mutate(PUMA = paste("41", pumaCode, sep = ""))
 
-mutateAg <- prefixAg |> mutate(pumasuffix = sub('^41051', '', PUMA))
-mutateAg <- mutateAg |> mutate(newPUMA = paste("41013", pumasuffix, sep = ""))
+#mutateAg <- prefixAg |> mutate(pumasuffix = sub('^41051', '', PUMA))
+#mutateAg <- mutateAg |> mutate(newPUMA = paste("41013", pumasuffix, sep = ""))
 ```
 
 This code produces the data set aggregatedData, in which each observation is the number of cancer deaths of a specific type in a specific PUMA region for a specific year between 2013 and 2023. With our data in this form, we can next calculate the rate of mortality by region.
@@ -130,26 +119,23 @@ For this stage of data processing, all analysis was done by year, repeating each
 
 ```{r}
 # Step 1: Load the data
-prefixAg <- read_csv("prefixAg.csv", col_types = cols(ddodyear = col_character(),PUMA = col_character()))
-mutateAg <- read_csv("mutateAg.csv", col_types = cols(ddodyear = col_character(), PUMA = col_character(), newPUMA = col_character()))
+#prefixAg <- read_csv("prefixAg.csv", col_types = cols(ddodyear = col_character(),PUMA = col_character()))
+#mutateAg <- read_csv("mutateAg.csv", col_types = cols(ddodyear = col_character(), PUMA = col_character(), newPUMA = col_character()))
 
 
 #Step 2: Gather acs data for each year using tidycensus
-popData2013 <- get_acs(
-    geography = "public use microdata area",
-    variables = c(total_population = "B01003_001"),
-    state = "OR",
-    year = 2013,
-    survey = "acs5",
-    geometry = TRUE, output = "wide") 
+#popData2013 <- get_acs(
+    #geography = "public use microdata area",
+    #variables = c(total_population = "B01003_001"),
+    #state = "OR",
+    #year = 2013,
+    #survey = "acs5",
+    #geometry = TRUE, output = "wide") 
 
 #Step 3: Join datasets and derive population porportions
-Ag13 <- mutateAg|>
-  filter(ddodyear == 2013)
+#Ag13 <- mutateAg|> filter(ddodyear == 2013)
 
-CancerRates2013 <- popData2013 |>
-  right_join(Ag13, by = c("GEOID" = "newPUMA")) |>
-  mutate(rate_per_100k = (totals / total_populationE) * 100000)
+#CancerRates2013 <- popData2013 |> right_join(Ag13, by = c("GEOID" = "newPUMA")) |> mutate(rate_per_100k = (totals / total_populationE) * 100000)
 ```
 
 ### Visualization Creation
@@ -169,38 +155,43 @@ Sample code for 2013 map generation is shown below
 
 ```{r}
 #Step 1: Generates dataframes for map creation
-CancerRatesLung2013 <- CancerRates2013 %>% filter(diseaseSite == "Lung")
-CancerRatesBreast2013 <- CancerRates2013 %>% filter(diseaseSite == "Breast")
-CancerRatesPancreas2013 <- CancerRates2013 %>% filter(diseaseSite == "Pancreas")
+#CancerRatesLung2013 <- CancerRates2013 %>% filter(diseaseSite == "Lung")
+#CancerRatesBreast2013 <- CancerRates2013 %>% filter(diseaseSite == "Breast")
+#CancerRatesPancreas2013 <- CancerRates2013 %>% filter(diseaseSite == "Pancreas")
 
 # Step 2: Generate maps based on these dataframes
-ggplot(CancerRatesLung2013) +
-    geom_sf(mapping=aes(fill = rate_per_100k)) +
-    scale_fill_viridis_c(
-      name = "Lung Cancer Deaths/100k residents",
-      limits = c(0, 50)
+#ggplot(CancerRatesLung2013) + geom_sf(mapping=aes(fill = rate_per_100k)) + scale_fill_viridis_c(name = "Lung Cancer Deaths/100k residents",limits = c(0, 50)) + theme_void() + labs(title="Estimated lung cancer deaths per 100k residents, 2013")
 
-    ) +
-    theme_void() +
-    labs(title="Estimated lung cancer deaths per 100k residents, 2013")
+#ggplot(CancerRatesBreast2013) + geom_sf(mapping=aes(fill = rate_per_100k)) +scale_fill_viridis_c(name = "Breast Cancer Deaths/100k residents",limits = c(0, 25)) + theme_void() + labs(title="Estimated breast cancer deaths per 100k residents, 2013")
 
-ggplot(CancerRatesBreast2013) +
-    geom_sf(mapping=aes(fill = rate_per_100k)) +
-    scale_fill_viridis_c(
-      name = "Breast Cancer Deaths/100k residents",
-      limits = c(0, 25) 
+#ggplot(CancerRatesPancreas2013) + geom_sf(mapping=aes(fill = rate_per_100k)) + scale_fill_viridis_c(name = "Pancreas Cancer Deaths/100k residents",limits = c(0, 20)) + theme_void() + labs(title="Estimated pancreas cancer deaths per 100k residents, 2013")
+```
 
-    ) +
-    theme_void() +
-    labs(title="Estimated breast cancer deaths per 100k residents, 2013")
+#### Animated Maps
 
-ggplot(CancerRatesPancreas2013) +
-    geom_sf(mapping=aes(fill = rate_per_100k)) +
-    scale_fill_viridis_c(
-      name = "Pancreas Cancer Deaths/100k residents",
-      limits = c(0, 20)
+Our final visualization combined the maps for all ten years into one gif for easier viewing.
 
-    ) +
-    theme_void() + 
-    labs(title="Estimated pancreas cancer deaths per 100k residents, 2013")
+The steps taken to generate these maps are as follows:
+
+1.  Combine dataframes that include mortality rates for each year.
+2.  Generate maps based on this dataframe with the gganimate package
+
+```{r}
+#Step 1: Combined Dataframe
+#CancerRates <- bind_rows(CancerRates2013, CancerRates2014, CancerRates2015, CancerRates2016, CancerRates2017, CancerRates2018, CancerRates2019, CancerRates2020, CancerRates2021, CancerRates2022)
+#CancerRatesLung <- CancerRates %>% filter(diseaseSite == "Lung")
+
+#Step 2: Generate Map
+#ggplot(CancerRatesLung) + geom_sf(mapping=aes(fill = rate_per_100k)) + scale_fill_viridis_c(name = "Lung Cancer Deaths/100k residents",limits = c(0, 50) + theme_void() + labs(title= "Lung Cancer Deaths/100k residents, 2013 - 2022: {current_frame}") + transition_manual(ddodyear) 
+
+```
+
+### Statistical Analysis
+
+The difference between the geographic areas" average mortality rates for each type of cancer was compared with a one way ANOVA. If significant differences were indicated at an alpha level of 0.05, post-hoc pairwise comparisons were done using Tukey's Honest Significant Differences test.
+
+```{r}
+#oneWayAnovaLung <- aov(CancerRatesLung$rate_per_100k ~ CancerRatesLung$pumaCode)
+#summary(oneWayAnovaLung)
+#TukeyHSD(oneWayAnovaLung, conf.level = .95)
 ```

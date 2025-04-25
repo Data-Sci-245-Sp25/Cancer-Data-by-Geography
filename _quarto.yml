@@ -12,15 +12,15 @@ website:
         text: Home
       - href: abstract.qmd 
         text: Abstract
-        href: background.qmd 
+      - href: background.qmd 
         text: Background Information
       - href: purpose.qmd 
         text: Aim of Research
-        href: methods.qmd #person A
+      - href: methods.qmd 
         text: Methods
-      - href: results.qmd #person B
+      - href: results.qmd 
         text: Results
-        href: conclusion.qmd #person B
+      - href: conclusion.qmd 
         text: Conclusion
 
 format:
