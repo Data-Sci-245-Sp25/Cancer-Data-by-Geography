@@ -16,7 +16,7 @@ website:
         text: Background Information
       - href: purpose.qmd 
         text: Aim of Research
-      - href: methods.qmd 
+      - href: methods.qmd
         text: Methods
       - href: results.qmd 
         text: Results

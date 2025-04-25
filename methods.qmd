@@ -188,7 +188,7 @@ The steps taken to generate these maps are as follows:
 
 ### Statistical Analysis
 
-The difference between the geographic areas" average mortality rates for each type of cancer was compared with a one way ANOVA. If significant differences were indicated at an alpha level of 0.05, post-hoc pairwise comparisons were done using Tukey's Honest Significant Differences test.
+The difference between the geographic areas' average mortality rates for each type of cancer was compared with a one way ANOVA. If significant differences were indicated at an alpha level of 0.05, post-hoc pairwise comparisons were done using Tukey's Honest Significant Differences test.
 
 ```{r}
 #oneWayAnovaLung <- aov(CancerRatesLung$rate_per_100k ~ CancerRatesLung$pumaCode)
