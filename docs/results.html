@@ -135,9 +135,11 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#results" id="toc-results" class="nav-link active" data-scroll-target="#results">Results</a>
   <ul class="collapse">
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key Points:</a></li>
   <li><a href="#maps" id="toc-maps" class="nav-link" data-scroll-target="#maps">Maps</a>
   <ul class="collapse">
   <li><a href="#results-of-statistical-tests" id="toc-results-of-statistical-tests" class="nav-link" data-scroll-target="#results-of-statistical-tests">Results of Statistical Tests</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -167,6 +169,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="results" class="level1">
 <h1>Results</h1>
+<section id="key-points" class="level2">
+<h2 class="anchored" data-anchor-id="key-points">Key Points:</h2>
+<ul>
+<li><p>Significantly higher lung cancer mortality in East Portland and significantly lower lung cancer mortality in Northwest and Southwest Portland.</p></li>
+<li><p>No significant difference in breast cancer or pancreatic cancer by geographic area.</p></li>
+<li><p>Data was too limited/variable to conclusively analyze trends over time.</p></li>
+<li><p>There are limitations to our data set that likely resulted in underestimates of the true mortality rates.</p></li>
+</ul>
+</section>
 <section id="maps" class="level2">
 <h2 class="anchored" data-anchor-id="maps">Maps</h2>
 <div class="cell">
@@ -208,7 +219,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="results-of-statistical-tests" class="level3">
 <h3 class="anchored" data-anchor-id="results-of-statistical-tests">Results of Statistical Tests</h3>
 <p>One way ANOVA tests revealed no significant differences in the average mortality rates of breast cancer or pancreatic cancer based on geography (p &gt; 0.05).</p>
-<p>Geographic area did have an impact on lung cancer mortality (p = 0.000004). Tukey’s HSD pairwise comparisons revealed that East Portland had significantly higher lung cancer mortality rates compared to the North and Northeast (p = 0.005), Central East (p = 0.0045), and Northwest &amp; Southwest (p = 0.0000012) areas. Additionally, Northwest &amp; Southwest Portland had significantly lower rates than the areas of East Portland (p = 0.0000012), Southeast Portland (p = 0.0015), and Gresham &amp; Troutdale cities (p = 0.0047).</p>
+<p>Geographic area did have an impact on lung cancer mortality (p = 0.000004). Tukey’s HSD pairwise comparisons revealed that East Portland had significantly higher lung cancer mortality rates compared to the North &amp; Northeast (11.58 rate difference, p = 0.005), Central East (11.69 rate difference, p = 0.0045), and Northwest &amp; Southwest (18.95 rate difference, p = 0.0000012) areas. Additionally, Northwest &amp; Southwest Portland had significantly lower rates than the areas of East Portland (18.95 rate difference, p = 0.0000012), Southeast Portland (12.73 rate difference, p = 0.0015), and Gresham &amp; Troutdale cities (11.65 rate difference, p = 0.0047).</p>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<p>There are significant limitations to our findings. Our analysis did not adjust for demographic factors that impact cancer mortality, such as race, gender, age, occupation, or smoker status. This is especially relevant for breast cancer mortality rates which were not restricted to the female population as is the convention in public health. Additionally, our dataset only includes ten years of data, making it limited for drawing conclusions regarding the impact of environmental factors currently impacting&nbsp;Multnomah County residents, many of which can take decades of data to draw strong conclusions about their impact. Regarding the quality of our dataset, approximately 20% of observations were dropped due to missing or incorrect FIPS codes leading to underestimates of true mortality rates.</p>
 
 
 </section>
